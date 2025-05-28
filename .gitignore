@@ -1,0 +1,62 @@
+# Root-level node modules (if you run npm/yarn in root)
+node_modules/
+.env
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Mac system files
+.DS_Store
+
+#######################
+# Client (Next.js) ignores
+#######################
+
+# Next.js build output
+client/.next/
+client/out/
+client/node_modules/
+client/.env.local
+client/.env.*.local
+client/.turbo/
+
+# Optional: Vercel or Netlify deploy files
+client/.vercel/
+client/.netlify/
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+#######################
+# Server (Sanity) ignores
+#######################
+
+# Sanity build + data output
+server/.sanity/
+server/dist/
+server/node_modules/
+server/.env.local
+server/.env.*.local
+
+# Sanity Studio uploads (optional, depending on hosting)
+server/static/
+
+#######################
+# OS or editor settings
+#######################
+
+*.swp
+*.swo
+*.swn
+*.tmp
+*.bak
+.vscode/
+.idea/
+
+# Typescript
+*.tsbuildinfo
