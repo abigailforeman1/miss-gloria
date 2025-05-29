@@ -28,6 +28,7 @@ export default defineType({
       name: 'mainImage',
       title: 'Main image',
       type: 'image',
+      description: 'Please compress images before upload. Recommended max size: 300KB.',
       options: {
         hotspot: true,
       },
@@ -55,6 +56,37 @@ export default defineType({
       type: 'datetime',
     }),
     defineField({
+      name: 'projectUrl',
+      title: 'Project URL',
+      type: 'string',
+    }),
+    defineField({
+      name: 'gallery',
+      title: 'Image Gallery',
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          description: 'Please compress images before upload. Recommended max size: 300KB.',
+          options: {hotspot: true},
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for SEO and accessibility',
+            },
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+              description: 'Optional image caption',
+            },
+          ],
+        },
+      ],
+    }),
+    defineField({
       name: 'body',
       title: 'Body',
       type: 'blockContent',
@@ -65,12 +97,11 @@ export default defineType({
     select: {
       client: 'client',
       title: 'title',
-      // author: 'author.name',
       media: 'mainImage',
     },
     prepare(selection) {
       const {client} = selection
-      return {...selection, subtitle: `weird test ${client}`}
+      return {...selection, subtitle: `client: ${client}`}
     },
   },
 })
