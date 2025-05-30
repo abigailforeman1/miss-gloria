@@ -1,14 +1,61 @@
 // src/lib/sanity.queries.ts
-import { groq } from 'next-sanity'
 
-export const projectsQuery = `
+export const allProjectsQuery = `
   *[_type == "project"] | order(_createdAt desc) {
     _id,
     client,
     title,
     slug,
-    description,
     mainImage,
-    projectUrl
+    "mainImageUrl": mainImage.asset->url,
+    services[]->{
+      _id,
+      name,
+      slug
+    }
   }
-`
+`;
+
+export const singleProjectQuery = `
+  *[_type == "project" && slug.current == $slug][0] {
+    _id,
+    client,
+    title,
+    slug,
+    year,
+    body,
+    projectUrl,
+    mainImage,
+    "mainImageUrl": mainImage.asset->url,
+    services[]->{
+      _id,
+      name,
+      slug
+    },
+    gallery
+  }
+`;
+
+export const projectsByServiceQuery = `
+  *[_type == "project" && $serviceId in services[]._ref] | order(_createdAt desc) {
+    _id,
+    client,
+    title,
+    slug,
+    mainImage,
+    "mainImageUrl": mainImage.asset->url,
+    services[]->{
+      _id,
+      name,
+      slug
+    }
+  }
+`;
+
+export const allServicesQuery = `
+  *[_type == "service"] | order(_createdAt desc) {
+    _id,
+    title,
+    description
+  }
+`;

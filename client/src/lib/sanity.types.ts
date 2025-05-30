@@ -21,10 +21,17 @@ export interface Project {
   slug: { current: string };
   description: string;
   mainImage: SanityImage;
+  mainImageUrl: string;
   year: number;
   services: ServiceRef[];
   publishedAt: string;
   projectUrl?: string;
   gallery: SanityImage[];
   body: string;
+}
+
+export interface Service {
+  _id: string;
+  title: string;
+  description: string;
 }

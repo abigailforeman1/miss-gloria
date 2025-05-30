@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
+import { Kalnia } from "next/font/google";
+import { ThemeProvider } from "@/lib/ThemeContext";
+import { ThemeUpdater } from "@/lib/ThemeUpdater";
+
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"], // optional
+  variable: "--font-inter",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const kalnia = Kalnia({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"], // optional
+  variable: "--font-kalnia",
 });
 
 export const metadata: Metadata = {
@@ -24,10 +30,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${inter.variable} ${kalnia.variable} antialiased min-h-screen flex flex-col`}>
+        <ThemeProvider>
+          <ThemeUpdater />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
