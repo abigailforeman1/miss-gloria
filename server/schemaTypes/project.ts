@@ -32,6 +32,14 @@ export default defineType({
       options: {
         hotspot: true,
       },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alt Text',
+          description: 'Important for SEO and accessibility',
+        },
+      ],
     }),
     defineField({
       name: 'year',
@@ -101,7 +109,7 @@ export default defineType({
     },
     prepare(selection) {
       const {client} = selection
-      return {...selection, subtitle: `client: ${client}`}
+      return {...selection, subtitle: client}
     },
   },
 })
