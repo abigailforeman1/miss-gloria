@@ -60,7 +60,9 @@ export default function Home() {
         )}
         {projects.length > 0 && <Carousel projects={projects} />}
       </main>
-      <Footer />
+      <div className="absolute bottom-0 right-0">
+        <Footer />
+      </div>
     </>
   );
 }

@@ -15,7 +15,7 @@ export default function FilterBar({
   setSelectedService,
 }: filterBarProps) {
   return (
-    <div className="flex justify-center text-lg font-[family-name:var(--font-inter)] font-medium gap-[20px] text-pink-100 m-[50px]">
+    <div className="flex justify-center text-md font-[family-name:var(--font-inter)] font-medium gap-[20px] text-pink-100 m-[50px]">
       <button
         onMouseEnter={(e) => {
           e.currentTarget.style.opacity = "1";

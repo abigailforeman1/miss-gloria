@@ -1,0 +1,15 @@
+/* Carousel.module.css */
+.slideInner {
+  transition: transform 0.3s ease;
+}
+
+/* Scale center slide */
+.activeSlide .slideInner {
+  transform: scale(1.5);
+}
+
+/* Optional: slightly shrink adjacent slides */
+.nextSlide .slideInner,
+.prevSlide .slideInner {
+  transform: scale(0.95);
+}
