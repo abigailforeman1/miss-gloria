@@ -14,9 +14,8 @@ import css from "@/app/ui/carousel.module.css";
 
 export default function Carousel({ projects }: { projects: Project[] }) {
   const { themeColor, setThemeColor } = useTheme();
-  const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
-
-  console.log(swiperInstance);
+  // const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     setThemeColor(
@@ -27,8 +26,9 @@ export default function Carousel({ projects }: { projects: Project[] }) {
   }, [themeColor]);
 
   return (
-    <div className="flex">
+    <div className="w-full h-full flex justify-center overflow-visible">
       <Swiper
+        className="!py-[50px]"
         spaceBetween={0}
         slidesPerView={5}
         loop={true}
@@ -40,41 +40,87 @@ export default function Carousel({ projects }: { projects: Project[] }) {
         //   sticky: true, // true = more snap, false = smoother
         // }}
         direction={"horizontal"}
-        // height={"80%"}
-        // onSlideChange={() => console.log("slide change")}
-        // onSwiper={(swiper) => console.log(swiper)}
         mousewheel={true}
         modules={[Mousewheel, FreeMode]}
-        onSwiper={setSwiperInstance}
+        // onSwiper={(swiper) => setSwiperInstance(swiper)}
+        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
       >
+        {/* ${i == activeIndex - 1 || i == activeIndex - 2 ? css.prevSlide : ""} */}
         {projects.map((project, i) => (
-          <SwiperSlide
-            key={project._id}
-            // className="transition-transform duration-300 !w-[250px]"
-            className={`transition-transform duration-300 ${
-              swiperInstance?.activeIndex === i ? css.activeSlide : ""
-            }`}
-          >
-            <div className={css.slideInner}>
-              <div className="flex flex-col text-xs font-[family-name:var(--font-inter)] font-regular text-pink-100 mb-[10px] gap-[2px]">
-                <h1>
-                  {i < 10 ? "0" : ""}
-                  {i + 1}.
-                </h1>
-                <h1>{project.client}</h1>
-                <h1>{project.title}</h1>
-              </div>
+          <>
+            <SwiperSlide
+              className={`transition-transform duration-100 origin-top
+                ${activeIndex == i ? css.activeSlide : css.inactiveSlide}
+                ${
+                  activeIndex <= projects.length - 3 &&
+                  (i == activeIndex + 1 || i == activeIndex + 2
+                    ? css.nextSlide
+                    : "")
+                }
+                ${
+                  activeIndex === projects.length - 2 &&
+                  (i == 6 || i == 0 ? css.nextSlide : "")
+                }
+                ${
+                  activeIndex === projects.length - 1 &&
+                  (i == 0 || i == 1 ? css.nextSlide : "")
+                }
 
-              <Image
-                src={urlFor(project.mainImageUrl).width(250).quality(100).url()}
-                alt={project.mainImage.alt || "Project image"}
-                width={250}
-                height={300}
-                style={{ objectFit: "cover" }}
-                loading="lazy"
-              />
-            </div>
-          </SwiperSlide>
+
+                                ${
+                                  activeIndex >= 2 &&
+                                  (i == activeIndex - 1 || i == activeIndex - 2
+                                    ? css.prevSlide
+                                    : "")
+                                }
+                ${
+                  activeIndex === 1 &&
+                  (i == 0 || i == projects.length - 1 ? css.prevSlide : "")
+                }
+                ${
+                  activeIndex === 0 &&
+                  (i == projects.length - 1 || i == projects.length - 2
+                    ? css.prevSlide
+                    : "")
+                }
+
+
+                `}
+              style={{
+                transform:
+                  i == 1 || i == 2
+                    ? "translateX(50%) !important"
+                    : i == 5 || i == 6
+                    ? "translateX(-50%) !important"
+                    : "",
+              }}
+              key={project._id}
+            >
+              <div className={css.slideInner}>
+                <div className="flex flex-col text-xs font-[family-name:var(--font-inter)] font-regular text-pink-100 mb-[10px] gap-[2px]">
+                  <h1>
+                    {i < 10 ? "0" : ""}
+                    {i + 1}.
+                  </h1>
+                  <h1>{project.client}</h1>
+                  <h1>{project.title}</h1>
+                </div>
+
+                <Image
+                  src={urlFor(project.mainImageUrl)
+                    .width(500)
+                    .quality(100)
+                    .url()}
+                  alt={project.mainImage.alt || "Project image"}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{ width: "100%", height: "auto", objectFit: "cover" }} // optional
+                  loading="lazy"
+                />
+              </div>
+            </SwiperSlide>
+          </>
         ))}
       </Swiper>
     </div>
