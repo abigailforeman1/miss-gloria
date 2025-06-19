@@ -34,7 +34,8 @@ export default function Carousel({ projects }: { projects: Project[] }) {
         spaceBetween={10}
         slidesPerView={5}
         // loop={true}
-        // centeredSlides={true}
+        centeredSlides={true}
+        initialSlide={Math.floor(projects.length / 2)}
         slideToClickedSlide={true}
         freeMode={{
           enabled: true,
@@ -67,66 +68,9 @@ export default function Carousel({ projects }: { projects: Project[] }) {
                       ${css.activeSlide}`
                     : ""
                 }
-                ${
-                  activeIndex <= projects.length - 4 &&
-                  (i == activeIndex + 1 ||
-                  i == activeIndex + 2 ||
-                  i == activeIndex + 3
-                    ? `${css.nextSlide}`
-                    : "")
-                }
-                                ${
-                                  activeIndex === projects.length - 3 &&
-                                  (i == activeIndex + 1 ||
-                                  i == activeIndex + 2 ||
-                                  i == 0
-                                    ? `${css.nextSlide}`
-                                    : "")
-                                }
-                ${
-                  activeIndex === projects.length - 2 &&
-                  (i == activeIndex + 1 || i == 0 || i == 1
-                    ? `${css.nextSlide}`
-                    : "")
-                }
-                ${
-                  activeIndex === projects.length - 1 &&
-                  (i == 0 || i == 1 || i == 2 ? `${css.nextSlide}` : "")
-                }
+                ${i > activeIndex ? `${css.nextSlide}` : ""}
+                ${i < activeIndex ? `${css.prevSlide}` : ""}
 
-                ${
-                  activeIndex >= 3 &&
-                  (i == activeIndex - 1 ||
-                  i == activeIndex - 2 ||
-                  i == activeIndex - 3
-                    ? `${css.prevSlide}`
-                    : "")
-                }
-
-                                ${
-                                  activeIndex === 2 &&
-                                  (i == activeIndex - 1 ||
-                                  i == activeIndex - 2 ||
-                                  i == projects.length - 1
-                                    ? `${css.prevSlide}`
-                                    : "")
-                                }
-                ${
-                  activeIndex === 1 &&
-                  (i == 0 ||
-                  i == projects.length - 1 ||
-                  i == projects.length - 2
-                    ? `${css.prevSlide}`
-                    : "")
-                }
-                ${
-                  activeIndex === 0 &&
-                  (i == projects.length - 1 ||
-                  i == projects.length - 2 ||
-                  i == projects.length - 3
-                    ? `${css.prevSlide}`
-                    : "")
-                }
                 `}
               key={project._id}
             >
@@ -142,10 +86,10 @@ export default function Carousel({ projects }: { projects: Project[] }) {
                         }`
                   } transition-transform duration-500 flex flex-col text-xs font-[family-name:var(--font-inter)] font-regular text-pink-100 mb-[10px] gap-[2px]`}
                 >
-                  <h1>
+                  {/* <h1>
                     {i < 10 ? "0" : ""}
                     {i + 1}.
-                  </h1>
+                  </h1> */}
                   <h1>{project.client}</h1>
                   <h1>{project.title}</h1>
                 </div>
