@@ -16,6 +16,8 @@ export default function Carousel({ projects }: { projects: Project[] }) {
   const { themeColor, setThemeColor } = useTheme();
   // const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState(0);
+  const [swipeDirection, setSwipeDirection] = useState("");
 
   useEffect(() => {
     setThemeColor(
@@ -28,76 +30,118 @@ export default function Carousel({ projects }: { projects: Project[] }) {
   return (
     <div className="w-full h-full flex justify-center overflow-visible">
       <Swiper
-        className="!py-[50px]"
-        spaceBetween={0}
+        className="!pt-[25px] !pb-[50px]"
+        spaceBetween={10}
         slidesPerView={5}
-        loop={true}
-        centeredSlides={true}
+        // loop={true}
+        // centeredSlides={true}
         slideToClickedSlide={true}
-        // freeMode={{
-        //   enabled: true,
-        //   momentum: true,
-        //   sticky: true, // true = more snap, false = smoother
-        // }}
+        freeMode={{
+          enabled: true,
+          momentum: true,
+          sticky: false, // true = more snap, false = smoother
+        }}
+        speed={800}
         direction={"horizontal"}
         mousewheel={true}
         modules={[Mousewheel, FreeMode]}
         // onSwiper={(swiper) => setSwiperInstance(swiper)}
-        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+        onSlideChange={(swiper) => {
+          setActiveIndex(swiper.realIndex);
+          const newIndex = swiper.realIndex;
+          if (newIndex !== prevIndex) {
+            const direction = newIndex > prevIndex ? "right" : "left";
+            console.log(direction);
+            setSwipeDirection(direction);
+            setPrevIndex(newIndex);
+          }
+        }}
       >
-        {/* ${i == activeIndex - 1 || i == activeIndex - 2 ? css.prevSlide : ""} */}
         {projects.map((project, i) => (
           <>
             <SwiperSlide
-              className={`transition-transform duration-100 origin-top
-                ${activeIndex == i ? css.activeSlide : css.inactiveSlide}
+              className={`
                 ${
-                  activeIndex <= projects.length - 3 &&
-                  (i == activeIndex + 1 || i == activeIndex + 2
-                    ? css.nextSlide
+                  activeIndex == i
+                    ? `transition-transform duration-500
+                      ${css.activeSlide}`
+                    : ""
+                }
+                ${
+                  activeIndex <= projects.length - 4 &&
+                  (i == activeIndex + 1 ||
+                  i == activeIndex + 2 ||
+                  i == activeIndex + 3
+                    ? `${css.nextSlide}`
+                    : "")
+                }
+                                ${
+                                  activeIndex === projects.length - 3 &&
+                                  (i == activeIndex + 1 ||
+                                  i == activeIndex + 2 ||
+                                  i == 0
+                                    ? `${css.nextSlide}`
+                                    : "")
+                                }
+                ${
+                  activeIndex === projects.length - 2 &&
+                  (i == activeIndex + 1 || i == 0 || i == 1
+                    ? `${css.nextSlide}`
                     : "")
                 }
                 ${
-                  activeIndex === projects.length - 2 &&
-                  (i == 6 || i == 0 ? css.nextSlide : "")
-                }
-                ${
                   activeIndex === projects.length - 1 &&
-                  (i == 0 || i == 1 ? css.nextSlide : "")
+                  (i == 0 || i == 1 || i == 2 ? `${css.nextSlide}` : "")
                 }
 
+                ${
+                  activeIndex >= 3 &&
+                  (i == activeIndex - 1 ||
+                  i == activeIndex - 2 ||
+                  i == activeIndex - 3
+                    ? `${css.prevSlide}`
+                    : "")
+                }
 
                                 ${
-                                  activeIndex >= 2 &&
-                                  (i == activeIndex - 1 || i == activeIndex - 2
-                                    ? css.prevSlide
+                                  activeIndex === 2 &&
+                                  (i == activeIndex - 1 ||
+                                  i == activeIndex - 2 ||
+                                  i == projects.length - 1
+                                    ? `${css.prevSlide}`
                                     : "")
                                 }
                 ${
                   activeIndex === 1 &&
-                  (i == 0 || i == projects.length - 1 ? css.prevSlide : "")
+                  (i == 0 ||
+                  i == projects.length - 1 ||
+                  i == projects.length - 2
+                    ? `${css.prevSlide}`
+                    : "")
                 }
                 ${
                   activeIndex === 0 &&
-                  (i == projects.length - 1 || i == projects.length - 2
-                    ? css.prevSlide
+                  (i == projects.length - 1 ||
+                  i == projects.length - 2 ||
+                  i == projects.length - 3
+                    ? `${css.prevSlide}`
                     : "")
                 }
-
-
                 `}
-              style={{
-                transform:
-                  i == 1 || i == 2
-                    ? "translateX(50%) !important"
-                    : i == 5 || i == 6
-                    ? "translateX(-50%) !important"
-                    : "",
-              }}
               key={project._id}
             >
               <div className={css.slideInner}>
-                <div className="flex flex-col text-xs font-[family-name:var(--font-inter)] font-regular text-pink-100 mb-[10px] gap-[2px]">
+                <div
+                  className={`${
+                    i === activeIndex
+                      ? css.activeText
+                      : `transition-transform duration-500 ${
+                          swipeDirection == "left"
+                            ? `origin-bottom-right`
+                            : "origin-bottom-left"
+                        }`
+                  } transition-transform duration-500 flex flex-col text-xs font-[family-name:var(--font-inter)] font-regular text-pink-100 mb-[10px] gap-[2px]`}
+                >
                   <h1>
                     {i < 10 ? "0" : ""}
                     {i + 1}.
@@ -107,6 +151,15 @@ export default function Carousel({ projects }: { projects: Project[] }) {
                 </div>
 
                 <Image
+                  className={`${
+                    activeIndex == i
+                      ? css.activeImage
+                      : `transition-transform duration-500 ${
+                          swipeDirection == "left"
+                            ? "origin-top-right"
+                            : "origin-top-left"
+                        }`
+                  } transition-transform duration-500`}
                   src={urlFor(project.mainImageUrl)
                     .width(500)
                     .quality(100)
@@ -115,7 +168,7 @@ export default function Carousel({ projects }: { projects: Project[] }) {
                   width={0}
                   height={0}
                   sizes="100vw"
-                  style={{ width: "100%", height: "auto", objectFit: "cover" }} // optional
+                  style={{ width: "100%", height: "auto", objectFit: "cover" }}
                   loading="lazy"
                 />
               </div>

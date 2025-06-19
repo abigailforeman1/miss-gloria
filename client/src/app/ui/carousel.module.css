@@ -1,19 +1,25 @@
 /* Carousel.module.css */
 .slideInner {
-  transition: transform 0.5s ease;
+  /* transition: transform 0.5s ease; */
 }
 
-/* Scale center slide */
-.activeSlide .slideInner {
+.activeImage {
   transform: scale(1.2);
   z-index: 10;
+  transform-origin: top !important;
 }
 
-/* Optional: slightly shrink adjacent slides */
-/* .nextSlide .slideInner,
-.prevSlide .slideInner {
-  transform: scale(0.95);
-} */
+.activeText {
+  /* transform: translateX(-10%) !important ; */
+  transform: scale(1.2);
+  z-index: 10;
+  transform-origin: bottom !important;
+}
+
+.inactiveText {
+  /* transform: translateX(0%) !important ; */
+  /* transform-origin: right !important; */
+}
 
 .nextSlide {
   transform: translateX(10%) !important ;
