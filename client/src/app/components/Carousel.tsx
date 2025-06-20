@@ -28,11 +28,11 @@ export default function Carousel({ projects }: { projects: Project[] }) {
   }, [themeColor]);
 
   return (
-    <div className="w-full h-full flex justify-center overflow-visible">
+    <div className="w-full h-screen flex justify-center overflow-visible">
       <Swiper
-        className="!pt-[25px] !pb-[50px]"
+        className="!pt-[25px] cursor-pointer"
         spaceBetween={10}
-        slidesPerView={5}
+        slidesPerView={projects.length >= 5 ? 5 : projects.length}
         // loop={true}
         centeredSlides={true}
         initialSlide={Math.floor(projects.length / 2)}
@@ -61,7 +61,7 @@ export default function Carousel({ projects }: { projects: Project[] }) {
         {projects.map((project, i) => (
           <>
             <SwiperSlide
-              className={`
+              className={`swiperSlide group
                 ${
                   activeIndex == i
                     ? `transition-transform duration-500
@@ -76,10 +76,10 @@ export default function Carousel({ projects }: { projects: Project[] }) {
             >
               <div className={css.slideInner}>
                 <div
-                  className={`${
+                  className={`ease-in-out group-hover:-translate-y-[15%] ${
                     i === activeIndex
                       ? css.activeText
-                      : `transition-transform duration-500 ${
+                      : `${
                           swipeDirection == "left"
                             ? `origin-bottom-right`
                             : "origin-bottom-left"
@@ -98,7 +98,7 @@ export default function Carousel({ projects }: { projects: Project[] }) {
                   className={`${
                     activeIndex == i
                       ? css.activeImage
-                      : `transition-transform duration-500 ${
+                      : `${
                           swipeDirection == "left"
                             ? "origin-top-right"
                             : "origin-top-left"
