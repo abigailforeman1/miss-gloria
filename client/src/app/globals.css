@@ -1,6 +1,53 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme {
+  --text-7xl: 96px;
+  --text-6xl: 76px;
+  --color-orange-900: #511c10;
+  --color-orange-800: #c4320a;
+  --color-orange-500: #fb6514;
+  --color-orange-400: #fd853a;
+  --color-orange-300: #feb273;
+  --color-orange-200: #ffead5;
+  --color-orange-100: #fffaf5;
+  --color-pink-900: #4e0d30;
+  --color-pink-800: #dd2590;
+  --color-pink-500: #ee46bc;
+  --color-pink-400: #F670C7;
+  --color-pink-300: #FAA7E0;
+  --color-pink-200: #FCCEEE;
+  --color-pink-100: #fef6fb;
+  --color-blue-900: #2e107f;
+  --color-blue-800: #4518bf;
+  --color-blue-500: #5c20ff;
+  --color-blue-400: #ae90ff;
+  --color-blue-300: #d6c7ff;
+  --color-blue-200: #eee8ff;
+  --color-blue-100: #f7f4ff;
+  --color-green-900: #007f0a;
+  --color-green-800: #00bf10;
+  --color-green-500: #00ff15;
+  --color-green-400: #80ff8a;
+  --color-green-300: #bfffc4;
+  --color-green-200: #e5ffe7;
+  --color-yellow-900: #736f3a;
+  --color-yellow-800: #bfbc00;
+  --color-yellow-500: #fffb00;
+  --color-yellow-400: #fffd80;
+  --color-yellow-300: #fffebf;
+  --color-yellow-200: #ffffe5;
+  --color-red-900: #7f0017;
+  --color-red-800: #bf0023;
+  --color-red-500: #ff002f;
+  --color-red-400: #ff8097;
+  --color-red-300: #ffbfcb;
+  --color-red-200: #ffe5ea;
+}
 
 body {
-  background: #F670C7;
+  background: #f670c7;
   font-family: Arial, Helvetica, sans-serif;
 }

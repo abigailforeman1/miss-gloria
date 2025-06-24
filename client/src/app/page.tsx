@@ -12,16 +12,21 @@ import Carousel from "./components/Carousel";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import FilterBar from "./components/FilterBar";
+import { useTheme } from "@/lib/ThemeContext";
 
 export default function Home() {
+  const { themeColor, setThemeColor } = useTheme();
   const [services, setServices] = useState<Service[]>([]);
   const [selectedService, setSelectedService] = useState<string>("all");
   const [projects, setProjects] = useState<Project[]>([]);
 
-  // // Get one project by slug
-  // const project: Project = await sanity.fetch(singleProjectQuery, {
-  //   slug: "my-slug",
-  // });
+  useEffect(() => {
+    setThemeColor(
+      document.body.style.backgroundColor.length
+        ? document.body.style.backgroundColor
+        : "#F670C7"
+    );
+  }, [setThemeColor]);
 
   // Fetch all services on mount
   useEffect(() => {
@@ -49,7 +54,7 @@ export default function Home() {
 
   return (
     <>
-      <Nav />
+      <Nav color={"#fef6fb"} />
       <main className="flex-grow">
         {services.length > 0 && (
           <FilterBar

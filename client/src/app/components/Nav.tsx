@@ -1,37 +1,40 @@
 "use client";
 import React from "react";
-import { useState, useEffect } from "react";
-
+// import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function Nav() {
+export default function Nav({ color }: { color: string }) {
   const pathname = usePathname();
-  const [textColor, updateTextColor] = useState("#FEF6FB");
+  // const [textColor, updateTextColor] = useState("#FEF6FB");
 
-  useEffect(() => {
-    switch (pathname) {
-      case "/":
-        updateTextColor("#FEF6FB");
-        break;
-      case "/about":
-        updateTextColor("#5C20FF");
-        break;
-      case "/product":
-        updateTextColor("#5C20FF");
-        break;
-      default:
-        break;
-    }
+  // useEffect(() => {
+  //   switch (pathname) {
+  //     case "/":
+  //       updateTextColor("#FEF6FB");
+  //       break;
+  //     case "/about":
+  //       updateTextColor("#5C20FF");
+  //       break;
+  //     case "/product":
+  //       updateTextColor("#5C20FF");
+  //       break;
+  //     default:
+  //       break;
+  //   }
 
-    return () => {};
-  }, [pathname]);
+  //   return () => {};
+  // }, [pathname]);
   return (
     <nav className="h-[80px] flex items-center justify-between w-full px-[30px]">
       <Link className="cursor-pointer" href={"/"}>
         <Image
-          src={"/logo-homepage.png"}
+          src={
+            pathname.includes("project")
+              ? "/logo-project.png"
+              : "/logo-homepage.png"
+          }
           className=""
           alt="miss gloria logo"
           width={200}
@@ -45,7 +48,7 @@ export default function Nav() {
           className="cursor-pointer"
           href={"/about"}
           style={{
-            color: textColor,
+            color: color,
           }}
         >
           <p>About</p>
@@ -53,7 +56,7 @@ export default function Nav() {
 
         <a
           style={{
-            color: textColor,
+            color: color,
           }}
           className="cursor-pointer"
           target="_blank"

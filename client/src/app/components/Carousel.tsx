@@ -1,41 +1,40 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import SwiperCore from "swiper";
+import React, { useState } from "react";
+// import SwiperCore from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import { Mousewheel, FreeMode } from "swiper/modules";
 import Image from "next/image";
-import { useTheme } from "@/lib/ThemeContext";
 import { urlFor } from "@/lib/sanity.image";
 import { Project } from "@/lib/sanity.types";
 import css from "@/app/ui/carousel.module.css";
+import { useRouter } from "next/navigation";
 
 export default function Carousel({ projects }: { projects: Project[] }) {
-  const { themeColor, setThemeColor } = useTheme();
   // const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState(0);
   const [swipeDirection, setSwipeDirection] = useState("");
+  const router = useRouter();
 
-  useEffect(() => {
-    setThemeColor(
-      document.body.style.backgroundColor.length
-        ? document.body.style.backgroundColor
-        : "#F670C7"
-    );
-  }, [themeColor]);
+  const handleSlideClick = (index: number, slug: string) => {
+    if (index === prevIndex || index === 3) {
+      router.push(`/projects/${slug}`);
+    }
+  };
 
   return (
-    <div className="w-full h-screen flex justify-center overflow-visible">
+    <div className="w-full h-full overflow-visible">
       <Swiper
-        className="!pt-[25px] cursor-pointer"
+        className="!pt-[25px] cursor-pointer !overflow-visible"
         spaceBetween={10}
         slidesPerView={projects.length >= 5 ? 5 : projects.length}
         // loop={true}
         centeredSlides={true}
-        initialSlide={Math.floor(projects.length / 2)}
+        // initialSlide={Math.floor(projects.length / 2)}
+        initialSlide={3}
         slideToClickedSlide={true}
         freeMode={{
           enabled: true,
@@ -52,15 +51,18 @@ export default function Carousel({ projects }: { projects: Project[] }) {
           const newIndex = swiper.realIndex;
           if (newIndex !== prevIndex) {
             const direction = newIndex > prevIndex ? "right" : "left";
-            console.log(direction);
             setSwipeDirection(direction);
-            setPrevIndex(newIndex);
           }
+          setPrevIndex(activeIndex);
         }}
       >
         {projects.map((project, i) => (
           <>
             <SwiperSlide
+              onClick={() => {
+                setPrevIndex(activeIndex);
+                handleSlideClick(i, project.slug.current);
+              }}
               className={`swiperSlide group
                 ${
                   activeIndex == i
@@ -74,7 +76,8 @@ export default function Carousel({ projects }: { projects: Project[] }) {
                 `}
               key={project._id}
             >
-              <div className={css.slideInner}>
+              {/* <Link href={`/projects/${project.slug.current}`}> */}
+              <div className={`${css.slideInner}`}>
                 <div
                   className={`ease-in-out group-hover:-translate-y-[15%] ${
                     i === activeIndex
@@ -112,10 +115,15 @@ export default function Carousel({ projects }: { projects: Project[] }) {
                   width={0}
                   height={0}
                   sizes="100vw"
-                  style={{ width: "100%", height: "auto", objectFit: "cover" }}
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    objectFit: "cover",
+                  }}
                   loading="lazy"
                 />
               </div>
+              {/* </Link> */}
             </SwiperSlide>
           </>
         ))}

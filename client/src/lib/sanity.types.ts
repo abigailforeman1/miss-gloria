@@ -10,6 +10,7 @@ export interface SanityImage {
 }
 
 export interface ServiceRef {
+  title: string;
   _type: "reference";
   _ref: string;
 }

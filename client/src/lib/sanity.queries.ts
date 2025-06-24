@@ -10,7 +10,7 @@ export const allProjectsQuery = `
     "mainImageUrl": mainImage.asset->url,
     services[]->{
       _id,
-      name,
+      title,
       slug
     }
   }
@@ -29,7 +29,7 @@ export const singleProjectQuery = `
     "mainImageUrl": mainImage.asset->url,
     services[]->{
       _id,
-      name,
+      title,
       slug
     },
     gallery
@@ -46,7 +46,7 @@ export const projectsByServiceQuery = `
     "mainImageUrl": mainImage.asset->url,
     services[]->{
       _id,
-      name,
+      title,
       slug
     }
   }
