@@ -15,12 +15,13 @@ import { useRouter } from "next/navigation";
 export default function Carousel({ projects }: { projects: Project[] }) {
   // const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [prevIndex, setPrevIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState(3);
   const [swipeDirection, setSwipeDirection] = useState("");
   const router = useRouter();
+  const [firstRun, setFirstRun] = useState(true);
 
   const handleSlideClick = (index: number, slug: string) => {
-    if (index === prevIndex || index === 3) {
+    if (index === prevIndex) {
       router.push(`/projects/${slug}`);
     }
   };
@@ -48,12 +49,14 @@ export default function Carousel({ projects }: { projects: Project[] }) {
         // onSwiper={(swiper) => setSwiperInstance(swiper)}
         onSlideChange={(swiper) => {
           setActiveIndex(swiper.realIndex);
-          const newIndex = swiper.realIndex;
-          if (newIndex !== prevIndex) {
-            const direction = newIndex > prevIndex ? "right" : "left";
-            setSwipeDirection(direction);
+          const direction =
+            swiper.activeIndex > swiper.previousIndex ? "right" : "left";
+          setSwipeDirection(direction);
+          setPrevIndex(swiper.previousIndex);
+          if (firstRun) {
+            setPrevIndex(3);
           }
-          setPrevIndex(activeIndex);
+          setFirstRun(false);
         }}
       >
         {projects.map((project, i) => (
@@ -79,11 +82,11 @@ export default function Carousel({ projects }: { projects: Project[] }) {
               {/* <Link href={`/projects/${project.slug.current}`}> */}
               <div className={`${css.slideInner}`}>
                 <div
-                  className={`ease-in-out group-hover:-translate-y-[15%] ${
+                  className={`ease-in-out group-hover:-translate-y-[20%] ${
                     i === activeIndex
                       ? css.activeText
                       : `${
-                          swipeDirection == "left"
+                          swipeDirection === "left"
                             ? `origin-bottom-right`
                             : "origin-bottom-left"
                         }`
@@ -102,7 +105,7 @@ export default function Carousel({ projects }: { projects: Project[] }) {
                     activeIndex == i
                       ? css.activeImage
                       : `${
-                          swipeDirection == "left"
+                          swipeDirection === "left"
                             ? "origin-top-right"
                             : "origin-top-left"
                         }`

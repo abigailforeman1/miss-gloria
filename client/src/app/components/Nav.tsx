@@ -39,7 +39,7 @@ export default function Nav({ color }: { color: string }) {
           alt="miss gloria logo"
           width={200}
           height={0}
-          // priority
+          priority
         />
       </Link>
 
