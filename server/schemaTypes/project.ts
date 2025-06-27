@@ -97,7 +97,7 @@ export default defineType({
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'blockContent',
+      type: 'string',
     }),
   ],
 
