@@ -6,6 +6,14 @@
 @theme {
   --text-7xl: 96px;
   --text-6xl: 76px;
+  --text-5xl: 48px;
+  --text-4xl: 36px;
+  --text-3xl: 30px;
+  --text-2xl: 24px;
+  --text-lg: 18px;
+  --text-md: 16px;
+  --text-sm: 14px;
+  --text-xs: 12px;
   --color-orange-900: #511c10;
   --color-orange-800: #c4320a;
   --color-orange-500: #fb6514;
@@ -16,9 +24,9 @@
   --color-pink-900: #4e0d30;
   --color-pink-800: #dd2590;
   --color-pink-500: #ee46bc;
-  --color-pink-400: #F670C7;
-  --color-pink-300: #FAA7E0;
-  --color-pink-200: #FCCEEE;
+  --color-pink-400: #f670c7;
+  --color-pink-300: #faa7e0;
+  --color-pink-200: #fcceee;
   --color-pink-100: #fef6fb;
   --color-blue-900: #2e107f;
   --color-blue-800: #4518bf;

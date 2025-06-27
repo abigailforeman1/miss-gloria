@@ -1,8 +1,8 @@
 .gridWrapper {
   display: grid;
   align-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-gap: 5rem;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-gap: 1rem;
 }
 
 .gridItem {
