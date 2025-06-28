@@ -30,7 +30,7 @@ export default function Page({
   const pathname = usePathname();
   const { setThemeColor } = useTheme();
 
-  console.log(project)
+  console.log(project);
   useEffect(() => {
     setThemeColor("#4E0D30");
   });
@@ -134,7 +134,50 @@ export default function Page({
               {[project.mainImage, ...(project.gallery || [])].map(
                 (image, i) => (
                   <React.Fragment key={i}>
-                    {i === 3 && <h1 className="col-span-full text-2xl font-[family-name:var(--font-inter)] font-regular text-pink-200 my-4">{project.body}</h1>}
+                    {(() => {
+                      if (
+                        i === 2 &&
+                        decodeAssetId(project.mainImage.asset._ref)?.dimensions
+                          .width >
+                          decodeAssetId(project.mainImage.asset._ref)
+                            ?.dimensions.height
+                      ) {
+                        return (
+                          <h1 className="col-span-full text-2xl font-[family-name:var(--font-inter)] font-regular text-pink-200 my-4">
+                            {project.body}
+                          </h1>
+                        );
+                      } else if (
+                        i === 2 &&
+                        decodeAssetId(project.gallery[0].asset._ref)?.dimensions
+                          .width >
+                          decodeAssetId(project.gallery[0].asset._ref)
+                            ?.dimensions.height
+                      ) {
+                        return (
+                          <h1 className="col-span-full text-2xl font-[family-name:var(--font-inter)] font-regular text-pink-200 my-4">
+                            {project.body}
+                          </h1>
+                        );
+                      } else if (
+                        i === 3 &&
+                        decodeAssetId(project.mainImage.asset._ref)?.dimensions
+                          .width <=
+                          decodeAssetId(project.mainImage.asset._ref)
+                            ?.dimensions.height &&
+                        decodeAssetId(project.gallery[0].asset._ref)?.dimensions
+                          .width <=
+                          decodeAssetId(project.gallery[0].asset._ref)
+                            ?.dimensions.height
+                      ) {
+                        return (
+                          <h1 className="col-span-full text-2xl font-[family-name:var(--font-inter)] font-regular text-pink-200 my-6">
+                            {project.body}
+                          </h1>
+                        );
+                      }
+                    })()}
+
                     <div
                       key={i}
                       className={`grid-item w-full h-full object-cover ${
@@ -155,6 +198,19 @@ export default function Page({
                         priority
                       />
                     </div>
+
+                    {(() => {
+                      if (
+                        (project.gallery.length === 1 && i === 1) ||
+                        (project.gallery.length === 2 && i === 2)
+                      ) {
+                        return (
+                          <h1 className="col-span-full text-2xl font-[family-name:var(--font-inter)] font-regular text-pink-200 my-6">
+                            {project.body}
+                          </h1>
+                        );
+                      }
+                    })()}
                   </React.Fragment>
                 )
               )}
